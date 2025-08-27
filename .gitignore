@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.db
+*.sqlite3
+
+# Virtual environment
+.env
+.venv/
+venv/
+ENV/
+myenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Logs & temp files
+*.log
+*.out
+*.tmp
+*.swp
+.DS_Store
+
+# Cache
+.cache/
+.mypy_cache/
+.pytest_cache/
+coverage/
+htmlcov/
+
+
+# Node / React Frontend
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+
+# -------------------------
+# AI / ML Specific
+# -------------------------
+# Model weights & large files
+*.pt
+*.pth
+*.h5
+*.ckpt
+*.onnx
+
+# Datasets
+data/
+datasets/
+*.csv
+*.tsv
+*.jsonl
+
+# Generated content (blogs, drafts, etc.)
+outputs/
+generated/
+blogs/
+drafts/
+
+
+# Environment & Config
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VSCode & JetBrains
+.vscode/
+.idea/
+
+# System files
+
+Thumbs.db
+*.bak
+*.orig

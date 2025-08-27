@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langchain
+pydantic
+langgraph
+langchain-core
+langchain-community
+langchain-groq  
+watchdog
+langchain-cli[inmem]   
