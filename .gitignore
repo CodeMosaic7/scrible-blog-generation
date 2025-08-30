@@ -41,9 +41,7 @@ yarn-error.log*
 dist/
 build/
 
-# -------------------------
 # AI / ML Specific
-# -------------------------
 # Model weights & large files
 *.pt
 *.pth
