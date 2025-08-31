@@ -8,11 +8,11 @@ class Blog(BaseModel):
 
 
 class BlogState(TypedDict):
-    blog: Blog
+    blog: Blog 
     topic: str
     keywords: list[str]
     audience: str
-    tone: str
+    tone: str 
     title: str
     outline: str
     draft: str
@@ -21,3 +21,4 @@ class BlogState(TypedDict):
     meta_description: str
     images: list[str]
     published: bool
+    current_lang:str 
