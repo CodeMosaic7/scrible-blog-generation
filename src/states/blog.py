@@ -1,24 +1,21 @@
-from typing import TypedDict
+from typing import TypedDict, Optional
 from pydantic import BaseModel, Field
 
 
 class Blog(BaseModel):
     title: str = Field(..., description="The title of the blog post")
-    content: str = Field(..., description="The content of the blog post") #... show that content and title are required fields
-
+    content: str = Field(..., description="The content of the blog post")
 
 class BlogState(TypedDict):
-    blog: Blog 
+    blog: Blog
     topic: str
-    keywords: list[str]
-    audience: str
-    tone: str 
-    title: str
-    outline: str
-    draft: str
-    edited_draft: str
-    seo_keywords: list[str]
-    meta_description: str
-    images: list[str]
-    published: bool
-    current_lang:str 
+    # current_language: str
+    
+class BlogRequestNested(BaseModel):
+    """Request model that matches your BlogState structure"""
+    topic: str
+    
+class BlogResponse(BaseModel):  
+    data: BlogState
+    status: str = Field(..., description="Status of the blog generation process")
+

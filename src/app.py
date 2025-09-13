@@ -1,41 +1,59 @@
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 import os
 import dotenv
 
-from graphs.graph_builder import GraphBuilder
-from llms.groq import GroqLLM
+from src.graphs.graph_builder import GraphBuilder
+from src.llms.groq import GroqLLM
+from src.states.blog import BlogState,Blog,BlogRequestNested,BlogResponse
 
 dotenv.load_dotenv()
 
 app=FastAPI(title="Blog Generation API")
-
+# Environment Variables
 os.environ["GROQ_API_KEY"]=os.getenv("GROQ_API_KEY")
 os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGCHAIN_API_KEY")
 
+# Routes
 @app.get("/check")
 def check():
     return {"status":"API is running"}
 
-@app.post("/blogs",)
-async def generate_blog(request: Request):
+@app.post("/blogs", response_model=BlogResponse)
+async def generate_blog(blog_request: BlogRequestNested):
     """Generates a blog based on the provided requirements description."""
-    req_data = await request.json()  #
-    description = req_data.get("description", "")
-    groqllm = GroqLLM(model="gpt-4o", temperature=0.7)
-    llm = groqllm.getllm()
-    graph_builder = GraphBuilder(llm)
-    graph = graph_builder.setup(usecase="topic")
-    
-    #
-    initial_state = {
-        "topic": req_data.get("topic", ""),  
-        "keywords": req_data.get("keywords", []),
-        "audience": req_data.get("audience", "")
-    }
-    
-    result_state = graph.invoke(initial_state)
-    return {"data": result_state}
+    print(blog_request)
+    try:
+        llm=GroqLLM()
+        
+        
+        graph_builder = GraphBuilder(llm.getllm())
+        graph = graph_builder.setup(usecase="topic")
+        
+        initial_state = {
+            "blog": "",
+            "topic": blog_request.topic
+            
+        }
+        
+        result_state = graph.invoke(initial_state)
+        print("Debug:",result_state)
+        
+        response_data: BlogState = {
+            "blog": result_state["blog"],
+            "topic": result_state.get("topic", blog_request.topic), 
+           
+        }
+        
+        return BlogResponse(
+            data=response_data,
+            status="success"
+        )
+        
+    except Exception as e:
+        print(f"Error processing request: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 if __name__=="__main__":
